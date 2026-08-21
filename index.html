@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    html, body, #map { width: 100%; height: 100vh; margin: 0; padding: 0; background: #1e1e1e; font-family: sans-serif; }
+    
+    #peek-window {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 400px;
+      height: 500px;
+      background: #252526;
+      border: 1px solid #454545;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      z-index: 2000;
+      flex-direction: column;
+      overflow: hidden;
+      color: #ccc;
+    }
+    #peek-header {
+      background: #2d2d2d;
+      color: #fff;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      border-bottom: 1px solid #3c3c3c;
+    }
+    #peek-close { cursor: pointer; color: #aaa; font-weight: bold; font-size: 16px; }
+    #peek-close:hover { color: #fff; }
+    #peek-content {
+      width: 100%;
+      height: calc(100% - 35px);
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      background: #1e1e1e;
+    }
+    #peek-content img { max-width: 100%; height: auto; border-radius: 4px; margin: 8px 0; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <div id="peek-window">
+    <div id="peek-header">
+      <span id="peek-title">Note Preview</span>
+      <span id="peek-close" onclick="closePeek()">&times;</span>
+    </div>
+    <div id="peek-content"></div>
+  </div>
+
+  <script>
+    const MAP_IMAGE = '../Suoi-Mo-assets/suoi-mo-map.png';
+    const CUSTOM_MARKER_SVG = '../gps-marker.svg';
+    const NOTES_FOLDER = '../Trạm-BigGame/';
+    const ASSETS_FOLDER = '../Suoi-Mo-assets/';
+
+    const img = new Image();
+    img.src = MAP_IMAGE;
+    img.onload = function() {
+      const w = img.naturalWidth;
+      const h = img.naturalHeight;
+
+      // Leaflet CRS.Simple bounds: [0,0] bottom-left to [h, w] top-right
+      const bounds = [[0, 0], [h, w]];
+
+      const map = L.map('map', {
+        crs: L.CRS.Simple,
+        minZoom: -2,
+        maxZoom: 3
+      });
+
+      L.imageOverlay(MAP_IMAGE, bounds).addTo(map);
+      map.fitBounds(bounds);
+
+      const customIcon = L.icon({
+        iconUrl: CUSTOM_MARKER_SVG,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -28]
+      });
+
+      fetch('../.obsidian/plugins/obsidian-leaflet-plugin/data.json')
+        .then(res => res.json())
+        .then(data => {
+          if (data.mapMarkers && data.mapMarkers[0].markers) {
+            data.mapMarkers[0].markers.forEach(m => {
+              // Convert Obsidian Leaflet percentage coordinates to pixel coordinates
+              const pctY = -m.loc[0]; // Negative lat = percentage down from top
+              const pctX = m.loc[1];  // Longitude = percentage right from left
+
+              const lat = 1.0 * h * (1 - pctY / 60); // Convert top percentage to bottom Y axis
+              const lng = 1.25 * w * (pctX / 100);     // Convert left percentage to X axis
+
+              const title = m.link || m.description || "Marker";
+
+              const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+
+              const popupHtml = `
+                <div style="text-align:center;">
+                  <b style="font-size:14px;">${title}</b><br><br>
+                  <a href="#" onclick="openPeek('${title}'); return false;" 
+                     style="background:#404040; color:#fff; padding:4px 8px; border-radius:4px; text-decoration:none; font-size:12px;">
+                    Peek Note ↗
+                  </a>
+                </div>
+              `;
+              marker.bindPopup(popupHtml);
+            });
+          }
+        });
+    };
+
+    function openPeek(title) {
+      document.getElementById('peek-title').innerText = title;
+      const notePath = `${NOTES_FOLDER}${encodeURIComponent(title)}.md`;
+
+      fetch(notePath)
+        .then(res => {
+          if (!res.ok) throw new Error("Note file not found");
+          return res.text();
+        })
+        .then(mdText => {
+          let parsedMd = mdText.replace(/!\[\[(.*?)\]\]/g, (match, fileName) => {
+            return `<img src="${ASSETS_FOLDER}${fileName.trim()}" />`;
+          });
+          parsedMd = parsedMd.replace(/\[\[(.*?)\]\]/g, '$1');
+
+          document.getElementById('peek-content').innerHTML = marked.parse(parsedMd);
+          document.getElementById('peek-window').style.display = 'flex';
+        })
+        .catch(err => {
+          document.getElementById('peek-content').innerHTML = `<p style="color:#ff6b6b;">Failed to load note: ${err.message}</p>`;
+          document.getElementById('peek-window').style.display = 'flex';
+        });
+    }
+
+    function closePeek() {
+      document.getElementById('peek-window').style.display = 'none';
+      document.getElementById('peek-content').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
