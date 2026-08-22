@@ -2,7 +2,7 @@
   "mapMarkers": [
     {
       "id": "world-map",
-      "lastAccessed": 1787323573648,
+      "lastAccessed": 1787370562231,
       "markers": [
         {
           "id": "ID_da4bc84b0ada",
@@ -11,267 +11,250 @@
             -15.454833984375,
             23.48828125
           ],
-          "link": "Trạm-a",
+          "link": "Trạm-Backup1",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm a",
+          "description": "Trạm-Backup1",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_19187a8a5ac8",
-          "type": "default",
+          "type": "Bất-ngờ",
           "loc": [
             -17.093994140625,
             19.03515625
           ],
-          "link": "Trạm-b",
+          "link": "Trạm-Bất-Ngờ-2",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm b",
-          "minZoom": null,
-          "maxZoom": null,
-          "tooltip": "hover"
-        },
-        {
-          "id": "ID_9bf9da8919ca",
-          "type": "default",
-          "loc": [
-            -14.21923828125,
-            27.4765625
-          ],
-          "link": "Trạm-n",
-          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
-          "mutable": true,
-          "command": false,
-          "percent": null,
-          "description": "Trạm-n",
+          "description": "Trạm-Bất-Ngờ-2",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_5bd848994a88",
-          "type": "default",
+          "type": "Trí-tuệ",
           "loc": [
             -12.62548828125,
             24.9453125
           ],
-          "link": "Trạm-c",
+          "link": "Chân-Trời-Kì-Dị",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-c",
+          "description": "Chân-Trời-Kì-Dị",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_db5a88aa6a3b",
-          "type": "default",
+          "type": "Vận-động",
           "loc": [
             -14.406494140625,
             25.70703125
           ],
-          "link": "Trạm-d",
+          "link": "Thời-Không-Vô-Lượng",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-d",
+          "description": "Thời-Không-Vô-Lượng",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_298859bb0939",
-          "type": "default",
+          "type": "Sinh-tồn",
           "loc": [
             -23.09423828125,
             41.4765625
           ],
-          "link": "Trạm-e",
+          "link": "Tàn-Dư-NovaPrime-Trỗi-Dậy",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-e",
+          "description": "Tàn-Dư-NovaPrime-Trỗi-Dậy",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_aafbdbaae959",
-          "type": "default",
+          "type": "Sinh-tồn",
           "loc": [
             -21.140869140625,
             39.58203125
           ],
-          "link": "Trạm-f",
+          "link": "Cương-Vực-Linh-Miêu",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-f",
-          "minZoom": null,
-          "maxZoom": null,
-          "tooltip": "hover"
-        },
-        {
-          "id": "ID_9b3aab1b1aeb",
-          "type": "default",
-          "loc": [
-            -19.375244140625,
-            37.80078125
-          ],
-          "link": "Trạm-g",
-          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
-          "mutable": true,
-          "command": false,
-          "percent": null,
-          "description": "Trạm-g",
+          "description": "Cương-Vực-Linh-Miêu",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_1ad8798b2aa8",
-          "type": "default",
+          "type": "Bất-ngờ",
           "loc": [
             -12.593994140625,
             29.75390625
           ],
-          "link": "Trạm-k",
+          "link": "Trạm-Bất-Ngờ-1",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-k",
+          "description": "Trạm-Bất-Ngờ-1",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_7aca28b96829",
-          "type": "default",
+          "type": "Khéo-léo",
           "loc": [
             -14.453369140625,
             29.53515625
           ],
-          "link": "Trạm-i",
+          "link": "Kiên-Trụ-Tinh-Hà",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-i",
+          "description": "Kiên-Trụ-Tinh-Hà",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_6aca1a9908f9",
-          "type": "default",
+          "type": "Vận-động",
           "loc": [
             -12.718994140625,
             28.12890625
           ],
-          "link": "Trạm-h",
+          "link": "Hố-Đen-Tử-Thần",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-h",
+          "description": "Hố-Đen-Tử-Thần",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_dbdbd81b5b7b",
-          "type": "default",
+          "type": "Vận-động",
           "loc": [
             -11.703369140625,
             25.64453125
           ],
-          "link": "Trạm-j",
+          "link": "Ải-Năng-Lượng",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-j",
+          "description": "Ải-Năng-Lượng",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_6b7888a96b1b",
-          "type": "default",
+          "type": "Trí-tuệ",
           "loc": [
             -17.609619140625,
             23.91015625
           ],
-          "link": "Trạm-m",
+          "link": "Mật-Mã-Khu-Rừng-Tối",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-m",
+          "description": "Mật-Mã-Khu-Rừng-Tối",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_890868992b3a",
-          "type": "default",
+          "type": "Khéo-léo",
           "loc": [
             -14.906494140625,
             28.89453125
           ],
-          "link": "Trạm-n",
+          "link": "Hạch-Luân-Chuyển",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-n",
+          "description": "Hạch-Luân-Chuyển",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_8aca081b5ada",
-          "type": "default",
+          "type": "Sinh-tồn",
           "loc": [
             -15.156494140625,
             27.80078125
           ],
-          "link": "Trạm-o",
+          "link": "Cuồng-Lang-Tinh-Vân",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-o",
+          "description": "Cuồng-Lang-Tinh-Vân",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
         },
         {
           "id": "ID_0a896a9a3908",
-          "type": "default",
+          "type": "Bất-ngờ",
           "loc": [
             -17.750244140625,
             28.76953125
           ],
-          "link": "Trạm-p",
+          "link": "Cuộc-Đua-Ngân-Hà",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-p",
+          "description": "Cuộc-Đua-Ngân-Hà",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
+        },
+        {
+          "id": "ID_68aa48898b7b",
+          "type": "Trí-tuệ",
+          "loc": [
+            -20.390869140625,
+            37.91015625
+          ],
+          "link": "Hoán-Vị-Thời-Không",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Hoán-Vị-Thời-Không",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
@@ -286,17 +269,98 @@
   ],
   "defaultMarker": {
     "type": "default",
-    "iconName": "map-marker",
+    "iconName": "map-marker-alt",
     "color": "#dddddd",
     "transform": {
       "size": 6,
       "x": 0,
       "y": -2
     },
-    "isImage": true,
+    "isImage": false,
     "imageUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAC4ElEQVR4AYxUPWgUQRh9s7nEi9EQ0TRa3KonBCsRREGENIqNjXbpgimCIGphYWHhDxxEU5gunYgo4r8WRkJQsEhhsAgRDRy794OKMT/mjgtqvB2/d9m7rHezdzfM233f+97Mu+xuxkITIx6Pd8dtuzcei50pgVw0NDEaBuyy7fN69e/cDo0nx4Ehgpwae40y6gb0xOxUl9Y3E9C4B73lEtBBkFNjj556IaEBe2L22x4g9hJoOSw75ATjPsipsUcPvdIyTmNAPLZzYANwcEh+OVc9lksfUEhozCegFvqgCtREBj30cg3rahgDNsM71g8d7RD3C8GobJrXVv9sJt09m05ty2vVT409eujdBH1SrDXTGKCg9sufXjI/gPr5CxhPZtyHJUEu5NTYkxL0rgC9MAxjwDKwe59vzgJdSmEUVYMae5TpLQLtcduuCTEGyDMtLGJtbAcWPa0G1qr1KzX2qJS9q1rPsg7CGNAKLC/5rqNad0agTwR/HTk19mijV9aspNPpb6yDMAZY0EvffddphcgR6IjWeLM3Zk8S5NTYo43eKCBPjNX/MAYUYY3NQFWcV4GNw/LJDkIfIsiplQ30FhVelevg3RiwovT4B+iFoPGAFKd8kAutTHoLnjVREQLEGIBIZNKFin4MGMPojDToRQTvhNZMY0AymcxFoZ++hvpTs6JKGINapddxHPm6q5pSGgNEx4Jl3XgGtOVYhIA7yn9z66LXcivEgtAA13Wnt0JNSEjYWjyXTqfCeyfrTAk1ztAAuud1MXFXHkGeRRUKUt+H+p331DWhobNugJPJTMghNn0b659seSfZHO3QM3IuyaldVmvvdQNo/+F5gzzlkix8uHK/I5jzrAtyqzsbBjjZ7FQb1OVhKL7T0mZDwlsVRtysa/w0Syb/0jCAvk9p9/oXwHkkBZEBvn5Opc5J2XA2FcBdlrR3cUTeBZHT3llqzaDpAL5wOeSuEOTNbE7PPwAAAP//v2iSKQAAAAZJREFUAwBJ9RMAgp6McAAAAABJRU5ErkJggg=="
   },
-  "markerIcons": [],
+  "markerIcons": [
+    {
+      "type": "Vận-động",
+      "iconName": "map-marker-alt",
+      "color": "#ff0000",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    },
+    {
+      "type": "Trí-tuệ",
+      "iconName": "map-marker-alt",
+      "color": "#eeff00",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    },
+    {
+      "type": "Sinh-tồn",
+      "iconName": "map-marker-alt",
+      "color": "#e100ff",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    },
+    {
+      "type": "Khéo-léo",
+      "iconName": "map-marker-alt",
+      "color": "#1eff00",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    },
+    {
+      "type": "Bất-ngờ",
+      "iconName": "map-marker-alt",
+      "color": "#4f38ff",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    }
+  ],
   "color": "#dddddd",
   "lat": 39.983334,
   "long": -82.98333,

@@ -9,6 +9,7 @@
   <style>
     html, body, #map { width: 100%; height: 100vh; margin: 0; padding: 0; background: #1e1e1e; font-family: sans-serif; }
     
+    /* Peek Window Drawer */
     #peek-window {
       display: none;
       position: fixed;
@@ -45,7 +46,88 @@
       overflow-y: auto;
       background: #1e1e1e;
     }
-    #peek-content img { max-width: 100%; height: auto; border-radius: 4px; margin: 8px 0; }
+    #peek-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin: 8px 0;
+      display: block;
+      background: #2a2a2a;
+    }
+
+    /* Custom Leaflet DivIcon styling */
+    .custom-marker-icon {
+      background: transparent !important;
+      border: none !important;
+    }
+
+    /* Permanent Marker Text Label Under Pins */
+    .leaflet-tooltip.station-label {
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid #555;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 0px 2px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      white-space: nowrap;
+    }
+
+    /* Floating Legend Panel */
+    #legend-panel {
+      position: absolute;
+      top: 30px;
+      left: 2px;
+      z-index: 1000;
+      background: rgba(37, 37, 38, 0.92);
+      backdrop-filter: blur(6px);
+      border: 1px solid #454545;
+      border-radius: 8px;
+      padding: 12px;
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+      color: #ccc;
+      width: 170px;
+      font-size: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    #legend-panel h4 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #444;
+      padding-bottom: 6px;
+    }
+    .legend-group { margin-bottom: 10px; }
+    .legend-header {
+      font-weight: bold;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+    }
+    .color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .legend-item {
+      padding: 3px 6px 3px 9px;
+      cursor: pointer;
+      color: #aaa;
+      border-radius: 4px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .legend-item:hover {
+      background: #3c3c3c;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -62,9 +144,9 @@
 
   <script>
     const MAP_IMAGE = 'Suoi-Mo-assets/suoi-mo-map.png';
-    const CUSTOM_MARKER_SVG = 'gps-marker.svg';
     const NOTES_FOLDER = 'Trạm-BigGame/';
     const ASSETS_FOLDER = 'Suoi-Mo-assets/';
+    const MAX_PEEK_IMAGE_WIDTH = 800; // Optimal resolution cap for peek drawer
 
     const img = new Image();
     img.src = MAP_IMAGE;
@@ -72,7 +154,6 @@
       const w = img.naturalWidth;
       const h = img.naturalHeight;
 
-      // Leaflet CRS.Simple bounds: [0,0] bottom-left to [h, w] top-right
       const bounds = [[0, 0], [h, w]];
 
       const map = L.map('map', {
@@ -84,43 +165,150 @@
       L.imageOverlay(MAP_IMAGE, bounds).addTo(map);
       map.fitBounds(bounds);
 
-      const customIcon = L.icon({
-        iconUrl: CUSTOM_MARKER_SVG,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -28]
-      });
-
       fetch('data.json')
         .then(res => res.json())
         .then(data => {
+          const colorMap = {};
+          
+          if (data.defaultMarker && data.defaultMarker.color) {
+            colorMap['default'] = data.defaultMarker.color;
+          }
+          
+          if (Array.isArray(data.markerIcons)) {
+            data.markerIcons.forEach(iconDef => {
+              colorMap[iconDef.type] = iconDef.color;
+            });
+          }
+
+          function createMarkerIcon(type) {
+            const color = colorMap[type] || colorMap['default'] || '#dddddd';
+            
+            const svgIcon = `
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="28" height="36" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.6));">
+                <path fill="${color}" stroke="#ffffff" stroke-width="18" d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67a24 24 0 0 1-35.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
+              </svg>`;
+
+            return L.divIcon({
+              className: 'custom-marker-icon',
+              html: svgIcon,
+              iconSize: [28, 36],
+              iconAnchor: [14, 36],
+              popupAnchor: [0, -34]
+            });
+          }
+
+          // Truncates name to the first 2 words (delimited by '-', '_', or ' ') followed by '..'
+          function getShortLabel(name) {
+            if (!name) return "";
+            const parts = name.split(/([-_\s]+)/);
+            let wordCount = 0;
+            let result = "";
+            for (let i = 0; i < parts.length; i++) {
+              if (i % 2 === 0) {
+                if (parts[i].trim().length > 0) {
+                  wordCount++;
+                }
+                result += parts[i];
+                if (wordCount === 2) break;
+              } else {
+                result += parts[i];
+              }
+            }
+            return result + '..';
+          }
+
           if (data.mapMarkers && data.mapMarkers[0].markers) {
+            const groupedData = {};
+            const markerMap = {};
+
             data.mapMarkers[0].markers.forEach(m => {
-              // Convert Obsidian Leaflet percentage coordinates to pixel coordinates
-              const pctY = -m.loc[0]; // Negative lat = percentage down from top
-              const pctX = m.loc[1];  // Longitude = percentage right from left
+              const pctY = -m.loc[0];
+              const pctX = m.loc[1]; 
 
-              const lat = 1.0 * h * (1 - pctY / 60); // Convert top percentage to bottom Y axis
-              const lng = 1.25 * w * (pctX / 100);     // Convert left percentage to X axis
+              const lat = 1.0 * h * (1 - pctY / 60); 
+              const lng = 1.25 * w * (pctX / 100);    
 
-              const title = m.link || m.description || "Marker";
+              const fullTitle = m.link || m.description || "Marker";
+              const type = m.type || 'default';
+              const markerIcon = createMarkerIcon(type);
 
-              const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+              const marker = L.marker([lat, lng], { icon: markerIcon }).addTo(map);
+
+              // Attach truncated label directly under pin
+              const shortLabel = getShortLabel(fullTitle);
+              marker.bindTooltip(shortLabel, {
+                permanent: true,
+                direction: 'bottom',
+                offset: [0, -5],
+                className: 'station-label'
+              });
 
               const popupHtml = `
                 <div style="text-align:center;">
-                  <b style="font-size:14px;">${title}</b><br><br>
-                  <a href="#" onclick="openPeek('${title}'); return false;" 
+                  <b style="font-size:14px;">${fullTitle}</b><br>
+                  <small style="color:#888;">Type: ${type}</small><br><br>
+                  <a href="#" onclick="openPeek('${fullTitle}'); return false;" 
                      style="background:#404040; color:#fff; padding:4px 8px; border-radius:4px; text-decoration:none; font-size:12px;">
                     Peek Note ↗
                   </a>
                 </div>
               `;
               marker.bindPopup(popupHtml);
+
+              // Group markers for the legend
+              if (!groupedData[type]) groupedData[type] = [];
+              groupedData[type].push(m);
+              markerMap[m.id] = marker;
             });
+
+            // Construct Legend Panel
+            buildLegend(groupedData, markerMap, colorMap, map);
           }
         });
     };
+
+    function buildLegend(groupedData, markerMap, colorMap, map) {
+      const legendEl = document.createElement('div');
+      legendEl.id = 'legend-panel';
+
+      const titleEl = document.createElement('h4');
+      titleEl.innerText = 'Danh sách Trạm';
+      legendEl.appendChild(titleEl);
+
+      Object.keys(groupedData).forEach(type => {
+        const color = colorMap[type] || colorMap['default'] || '#dddddd';
+        const group = document.createElement('div');
+        group.className = 'legend-group';
+
+        group.innerHTML = `
+          <div class="legend-header">
+            <span class="color-dot" style="background:${color};"></span>
+            <span>${type}</span>
+          </div>
+        `;
+
+        groupedData[type].forEach(m => {
+          const fullTitle = m.link || m.description || "Marker";
+          const item = document.createElement('div');
+          item.className = 'legend-item';
+          item.innerText = fullTitle;
+
+          // Pan to marker & open popup when clicked in legend
+          item.onclick = () => {
+            const marker = markerMap[m.id];
+            if (marker) {
+              map.panTo(marker.getLatLng());
+              marker.openPopup();
+            }
+          };
+          group.appendChild(item);
+        });
+
+        legendEl.appendChild(group);
+      });
+
+      document.body.appendChild(legendEl);
+    }
 
     function openPeek(title) {
       document.getElementById('peek-title').innerText = title;
@@ -133,17 +321,49 @@
         })
         .then(mdText => {
           let parsedMd = mdText.replace(/!\[\[(.*?)\]\]/g, (match, fileName) => {
-            return `<img src="${ASSETS_FOLDER}${fileName.trim()}" />`;
+            const cleanName = fileName.trim();
+            return `<img src="${ASSETS_FOLDER}${cleanName}" loading="lazy" decoding="async" class="optimize-target" alt="${cleanName}" />`;
           });
           parsedMd = parsedMd.replace(/\[\[(.*?)\]\]/g, '$1');
 
-          document.getElementById('peek-content').innerHTML = marked.parse(parsedMd);
+          const container = document.getElementById('peek-content');
+          container.innerHTML = marked.parse(parsedMd);
           document.getElementById('peek-window').style.display = 'flex';
+
+          optimizePeekImages(container);
         })
         .catch(err => {
           document.getElementById('peek-content').innerHTML = `<p style="color:#ff6b6b;">Failed to load note: ${err.message}</p>`;
           document.getElementById('peek-window').style.display = 'flex';
         });
+    }
+
+    function optimizePeekImages(container) {
+      const images = container.querySelectorAll('img.optimize-target');
+      images.forEach(imgEl => {
+        imgEl.addEventListener('load', () => {
+          if (imgEl.naturalWidth > MAX_PEEK_IMAGE_WIDTH) {
+            const scaleRatio = MAX_PEEK_IMAGE_WIDTH / imgEl.naturalWidth;
+            const targetWidth = MAX_PEEK_IMAGE_WIDTH;
+            const targetHeight = Math.round(imgEl.naturalHeight * scaleRatio);
+
+            const canvas = document.createElement('canvas');
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(imgEl, 0, 0, targetWidth, targetHeight);
+
+            canvas.toBlob(blob => {
+              if (blob) {
+                const optimizedUrl = URL.createObjectURL(blob);
+                imgEl.src = optimizedUrl;
+                imgEl.classList.remove('optimize-target');
+              }
+            }, 'image/webp', 0.82);
+          }
+        }, { once: true });
+      });
     }
 
     function closePeek() {
