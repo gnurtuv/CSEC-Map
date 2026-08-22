@@ -2,7 +2,7 @@
   "mapMarkers": [
     {
       "id": "world-map",
-      "lastAccessed": 1787370562231,
+      "lastAccessed": 1787442890708,
       "markers": [
         {
           "id": "ID_da4bc84b0ada",
@@ -28,12 +28,12 @@
             -17.093994140625,
             19.03515625
           ],
-          "link": "Trạm-Bất-Ngờ-2",
+          "link": "Kho-Báu",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-Bất-Ngờ-2",
+          "description": "Kho-Báu",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
@@ -113,12 +113,12 @@
             -12.593994140625,
             29.75390625
           ],
-          "link": "Trạm-Bất-Ngờ-1",
+          "link": "Khoang-Vật-Chất-Dị-Không",
           "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
           "mutable": true,
           "command": false,
           "percent": null,
-          "description": "Trạm-Bất-Ngờ-1",
+          "description": "Khoang-Vật-Chất-Dị-Không",
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
