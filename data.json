@@ -2,7 +2,7 @@
   "mapMarkers": [
     {
       "id": "world-map",
-      "lastAccessed": 1787442890708,
+      "lastAccessed": 1787752749011,
       "markers": [
         {
           "id": "ID_da4bc84b0ada",
@@ -258,12 +258,126 @@
           "minZoom": null,
           "maxZoom": null,
           "tooltip": "hover"
+        },
+        {
+          "id": "ID_8b7bf9494a6b",
+          "type": "Trí-tuệ",
+          "loc": [
+            -12.859619140625,
+            23.05078125
+          ],
+          "link": "Chân-Trời-Kì-Dị",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Chân-Trời-Kì-Dị",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
         }
       ],
       "overlays": [],
       "shapes": [],
       "files": [
-        "Map-Trạm.md"
+        "Map-Trạm.md",
+        "Map-TB-Warmup.md"
+      ]
+    },
+    {
+      "id": "tb-map",
+      "lastAccessed": 1787752749011,
+      "markers": [
+        {
+          "id": "ID_2b49c8fada49",
+          "type": "Team-Building",
+          "loc": [
+            -15.187744140625,
+            27.76953125
+          ],
+          "link": "Cuồng-Lang-Tinh-Vân",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Cụm-1",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
+        },
+        {
+          "id": "ID_4b2a89585b6b",
+          "type": "Team-Building",
+          "loc": [
+            -14.234619140625,
+            25.75390625
+          ],
+          "link": "Thời-Không-Vô-Lượng",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Cụm-2",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
+        },
+        {
+          "id": "ID_68ea6b59ba7a",
+          "type": "Team-Building",
+          "loc": [
+            -16.78173828125,
+            19.1328125
+          ],
+          "link": "Kho-Báu",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Cụm-3",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
+        },
+        {
+          "id": "ID_dafbb868d8ca",
+          "type": "Team-Building",
+          "loc": [
+            -15.328369140625,
+            23.47265625
+          ],
+          "link": "Trạm-Backup1",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Cụm-4",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
+        },
+        {
+          "id": "ID_fa6b890b5928",
+          "type": "Warm-up",
+          "loc": [
+            -13.00048828125,
+            22.9765625
+          ],
+          "link": "Chân-Trời-Kì-Dị",
+          "layer": "%5B%5Bsuoi-mo-map.png%5D%5D",
+          "mutable": true,
+          "command": false,
+          "percent": null,
+          "description": "Warm-up",
+          "minZoom": null,
+          "maxZoom": null,
+          "tooltip": "hover"
+        }
+      ],
+      "overlays": [],
+      "shapes": [],
+      "files": [
+        "Map-TB-Warmup.md"
       ]
     }
   ],
@@ -348,6 +462,38 @@
       "type": "Bất-ngờ",
       "iconName": "map-marker-alt",
       "color": "#4f38ff",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    },
+    {
+      "type": "Team-Building",
+      "iconName": "map-marker-alt",
+      "color": "#ff9500",
+      "alpha": 1,
+      "layer": false,
+      "transform": {
+        "size": 6,
+        "x": 0,
+        "y": -2
+      },
+      "isImage": false,
+      "tags": [],
+      "minZoom": null,
+      "maxZoom": null
+    },
+    {
+      "type": "Warm-up",
+      "iconName": "map-marker-alt",
+      "color": "#ff4dcf",
       "alpha": 1,
       "layer": false,
       "transform": {

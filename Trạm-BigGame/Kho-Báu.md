@@ -1,3 +1,5 @@
 ![[Sq-SW.png]]
 
-Tóm tắt: Giấu kho báu ở đây
+Tóm tắt: 
+- Big Gay: Giấu kho báu ở đây
+- Team Building: Cụm 3

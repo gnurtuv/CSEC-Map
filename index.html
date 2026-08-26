@@ -74,10 +74,47 @@
       white-space: nowrap;
     }
 
+    /* Tab Bar */
+    #tab-bar {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1500;
+      display: flex;
+      gap: 6px;
+      background: rgba(37, 37, 38, 0.92);
+      backdrop-filter: blur(6px);
+      border: 1px solid #454545;
+      border-radius: 8px;
+      padding: 5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .map-tab {
+      cursor: pointer;
+      color: #ccc;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: sans-serif;
+      padding: 7px 14px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .map-tab:hover {
+      background: #3c3c3c;
+      color: #fff;
+    }
+    .map-tab.active {
+      background: #4f5b66;
+      color: #fff;
+    }
+
     /* Floating Legend Panel */
     #legend-panel {
       position: absolute;
-      top: 30px;
+      top: 70px;
       left: 2px;
       z-index: 1000;
       background: rgba(37, 37, 38, 0.92);
@@ -85,7 +122,7 @@
       border: 1px solid #454545;
       border-radius: 8px;
       padding: 12px;
-      max-height: calc(100vh - 60px);
+      max-height: calc(100vh - 100px);
       overflow-y: auto;
       color: #ccc;
       width: 170px;
@@ -134,6 +171,11 @@
 
   <div id="map"></div>
 
+  <div id="tab-bar">
+    <div class="map-tab active" data-map-id="world-map">Trạm Big Game</div>
+    <div class="map-tab" data-map-id="tb-map">Team Building &amp; Warm-up</div>
+  </div>
+
   <div id="peek-window">
     <div id="peek-header">
       <span id="peek-title">Note Preview</span>
@@ -164,6 +206,10 @@
 
       L.imageOverlay(MAP_IMAGE, bounds).addTo(map);
       map.fitBounds(bounds);
+
+      // Layer group holding the markers of the currently active map/tab
+      let currentMarkersLayer = L.layerGroup().addTo(map);
+      let currentLegendEl = null;
 
       fetch('data.json')
         .then(res => res.json())
@@ -217,22 +263,37 @@
             return result + '..';
           }
 
-          if (data.mapMarkers && data.mapMarkers[0].markers) {
+          // Renders the markers + legend for a given mapMarkers entry (by id),
+          // clearing out whatever the previously active tab had drawn.
+          function renderMapMarkers(mapId) {
+            // Clear previous tab's markers
+            currentMarkersLayer.clearLayers();
+
+            // Clear previous tab's legend panel
+            if (currentLegendEl && currentLegendEl.parentNode) {
+              currentLegendEl.parentNode.removeChild(currentLegendEl);
+              currentLegendEl = null;
+            }
+
+            const mapEntry = data.mapMarkers && data.mapMarkers.find(mm => mm.id === mapId);
+            if (!mapEntry || !mapEntry.markers) return;
+
             const groupedData = {};
             const markerMap = {};
 
-            data.mapMarkers[0].markers.forEach(m => {
+            mapEntry.markers.forEach(m => {
               const pctY = -m.loc[0];
               const pctX = m.loc[1]; 
 
               const lat = 1.0 * h * (1 - pctY / 60); 
               const lng = 1.25 * w * (pctX / 100);    
 
-              const fullTitle = m.link || m.description || "Marker";
+              const fullTitle = m.description || m.link || "Marker";
+              const markerLink = m.link;
               const type = m.type || 'default';
               const markerIcon = createMarkerIcon(type);
 
-              const marker = L.marker([lat, lng], { icon: markerIcon }).addTo(map);
+              const marker = L.marker([lat, lng], { icon: markerIcon }).addTo(currentMarkersLayer);
 
               // Attach truncated label directly under pin
               const shortLabel = getShortLabel(fullTitle);
@@ -247,7 +308,7 @@
                 <div style="text-align:center;">
                   <b style="font-size:14px;">${fullTitle}</b><br>
                   <small style="color:#888;">Type: ${type}</small><br><br>
-                  <a href="#" onclick="openPeek('${fullTitle}'); return false;" 
+                  <a href="#" onclick="openPeek('${markerLink}'); return false;" 
                      style="background:#404040; color:#fff; padding:4px 8px; border-radius:4px; text-decoration:none; font-size:12px;">
                     Peek Note ↗
                   </a>
@@ -262,8 +323,22 @@
             });
 
             // Construct Legend Panel
-            buildLegend(groupedData, markerMap, colorMap, map);
+            currentLegendEl = buildLegend(groupedData, markerMap, colorMap, map);
           }
+
+          // Initial render: first map entry (Trạm Big Game)
+          const initialMapId = (data.mapMarkers && data.mapMarkers[0]) ? data.mapMarkers[0].id : null;
+          if (initialMapId) renderMapMarkers(initialMapId);
+
+          // Wire up the tab bar
+          document.querySelectorAll('.map-tab').forEach(tabEl => {
+            tabEl.addEventListener('click', () => {
+              if (tabEl.classList.contains('active')) return;
+              document.querySelectorAll('.map-tab').forEach(t => t.classList.remove('active'));
+              tabEl.classList.add('active');
+              renderMapMarkers(tabEl.dataset.mapId);
+            });
+          });
         });
     };
 
@@ -288,7 +363,7 @@
         `;
 
         groupedData[type].forEach(m => {
-          const fullTitle = m.link || m.description || "Marker";
+          const fullTitle = m.description || m.link || "Marker";
           const item = document.createElement('div');
           item.className = 'legend-item';
           item.innerText = fullTitle;
@@ -308,6 +383,7 @@
       });
 
       document.body.appendChild(legendEl);
+      return legendEl;
     }
 
     function openPeek(title) {
